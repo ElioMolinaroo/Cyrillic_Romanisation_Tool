@@ -1,0 +1,46 @@
+from pathlib import Path
+
+from release.cyrillic_romanisation_tool import Language
+
+
+DATABASE_PATH = Path("tests/test_database").absolute()
+
+
+def get_file_content(filepath: Path):
+    with open(filepath, "r", encoding="utf-8") as file:
+        text = file.read()
+    file.close()
+    return text
+
+
+def test_detect_russian():
+    # Get the russian database text
+    russian_text = get_file_content(filepath=DATABASE_PATH / "russian.txt")
+
+    # Try detecting the language
+    lang_obj = Language()
+    detected_language = lang_obj.detect_language(text=russian_text)
+
+    assert detected_language == "russian"
+
+
+def test_detect_ukrainian():
+    # Get the ukrainian database text
+    ukrainian_text = get_file_content(filepath=DATABASE_PATH / "ukrainian.txt")
+
+    # Try detecting the language
+    lang_obj = Language()
+    detected_language = lang_obj.detect_language(text=ukrainian_text)
+
+    assert detected_language == "ukrainian"
+
+
+def test_detect_uzbek():
+    # Get the uzbek database text
+    uzbek_text = get_file_content(filepath=DATABASE_PATH / "uzbek.txt")
+
+    # Try detecting the language
+    lang_obj = Language()
+    detected_language = lang_obj.detect_language(text=uzbek_text)
+
+    assert detected_language == "uzbek"
