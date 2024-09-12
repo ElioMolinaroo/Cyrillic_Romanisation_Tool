@@ -110,3 +110,36 @@ def test_detect_kyrgyz():
     detected_language = lang_obj.detect_language(text=kyrgyz_text)
 
     assert detected_language == "kyrgyz"
+
+
+def test_detect_turkmen():
+    # Get the turkmen database text
+    turkmen_text = get_file_content(filepath=DATABASE_PATH / "turkmen.txt")
+
+    # Try detecting the language
+    lang_obj = Language()
+    detected_language = lang_obj.detect_language(text=turkmen_text)
+
+    assert detected_language == "turkmen"
+
+
+def test_detect_macedonian():
+    # Get the macedonian database text
+    macedonian_text = get_file_content(filepath=DATABASE_PATH / "macedonian.txt")
+
+    # Try detecting the language
+    lang_obj = Language()
+    detected_language = lang_obj.detect_language(text=macedonian_text)
+
+    assert detected_language == "macedonian"
+
+
+def test_detect_chechen():
+    # Get the chechen database text
+    chechen_text = get_file_content(filepath=DATABASE_PATH / "chechen.txt")
+
+    # Try detecting the language
+    lang_obj = Language()
+    detected_language = lang_obj.detect_language(text=chechen_text)
+
+    assert detected_language == "chechen"
