@@ -7,7 +7,7 @@ Supported languages: Russian
 
 import logging
 
-logging.basicConfig(level=logging.ERROR)
+logging.basicConfig(level=logging.DEBUG)
 
 
 LANGUAGES_TABLES = {
@@ -120,7 +120,7 @@ class Language:
             language_table = LANGUAGES_TABLES[lang]
             total_specific_chars = len(LANGUAGES_TABLES[lang])
             wrong_language = False
-            detection_probability = 0.0
+            iterated_letters = 0
             matching_chars_list = []
 
             # Iterate over each character in the text
@@ -130,6 +130,7 @@ class Language:
                     continue
 
                 char = char.lower()
+                iterated_letters += 1
 
                 # If the character is in the common table, go to the next character
                 if char in LANGUAGES_TABLES["common"]:
@@ -140,6 +141,7 @@ class Language:
                     char not in LANGUAGES_TABLES["common"]
                     and char not in language_table
                 ):
+                    logging.debug(f"Wrong language: {lang}, because of character '{char}'")
                     wrong_language = True
                     break
 
@@ -151,11 +153,11 @@ class Language:
                             len(matching_chars_list) / total_specific_chars
                         )
 
-                        # If proportion is higher than 75% declare the language detected
-                        if found_chars_proportion >= 0.75:
-                            logging.debug(f"\high proportion detection: {lang}, {found_chars_proportion}\n")
-                            detected_language = lang
-                            break
+                    # If proportion is higher than 75% and it has gone through more than 200 letters (or the full text) declare the language detected
+                    if found_chars_proportion >= 0.75 and iterated_letters >= 200:
+                        logging.debug(f"\high proportion detection: {lang}, {found_chars_proportion}\n")
+                        detected_language = lang
+                        break
 
             # If the language has been found quit the loop
             if detected_language is not None:
