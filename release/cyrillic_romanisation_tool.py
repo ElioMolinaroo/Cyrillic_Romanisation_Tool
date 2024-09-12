@@ -3,6 +3,14 @@
 Supported languages: Russian
                      Ukrainian
                      Uzbek
+                     Kazakh
+                     Serbian
+                     Bulgarian
+                     Belarusian
+                     Tajik
+                     Kyrgyz
+                     Turkmen
+                     Macedonian
 """
 
 import logging
@@ -19,6 +27,8 @@ CY_LT_EQUIVALENTS = {
     "у": "y",
     "х": "x",
     "і": "i",
+    "ј": "j",
+    "ѕ": "s",
 }
 
 LANGUAGES_TABLES = {
@@ -109,6 +119,41 @@ LANGUAGES_TABLES = {
         "ы": "y",
     },
     "kyrgyz": {"ё": "ë", "ң": "ng", "ө": "ȯ", "ү": "u̇", "ъ": '"', "ы": "y", "э": "ė"},
+    "turkmen": {
+        "в": "w",
+        "ё": "ýo",
+        "ж": "ž",
+        "җ": "j",
+        "й": "ý",
+        "ң": "ň",
+        "ө": "ö",
+        "ү": "ü",
+        "х": "h",
+        "ц": "s",
+        "ч": "ç",
+        "ш": "ş",
+        "щ": "şç",
+        "ы": "y",
+        "э": "e",
+        "ә": "ä",
+        "ю": "ýu",
+        "я": "ýa",
+    },
+    "macedonian": {
+        "ѓ": "ǵ",
+        "ж": "ž",
+        "ѕ": "dz",
+        "ј": "j",
+        "ќ": "ḱ",
+        "љ": "lj",
+        "њ": "nj",
+        "х": "h",
+        "ц": "c",
+        "ч": "č",
+        "џ": "dž",
+        "ш": "š",
+    },
+    "chechen": {"ӏ": "ḣ", "ё": "ë", "ъ": '"', "ы": "y", "э": "ė"},
 }
 
 
@@ -125,6 +170,9 @@ class Language:
             "belarusian",
             "tajik",
             "kyrgyz",
+            "turkmen",
+            "macedonian",
+            "chechen",
         )
         self.RESOLUTION_ORDER = (
             "russian",
@@ -136,10 +184,9 @@ class Language:
             "belarusian",
             "tajik",
             "kyrgyz",
-            # "turkmen",
-            # "bosnian",
-            # "macedonian",
-            # "chechen",
+            "turkmen",
+            "macedonian",
+            "chechen",
             # "montenegrin",
             # "ossetian",
             # "ingush",
