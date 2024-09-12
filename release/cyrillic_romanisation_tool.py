@@ -5,6 +5,11 @@ Supported languages: Russian
                      Uzbek
 """
 
+import logging
+
+logging.basicConfig(level=logging.ERROR)
+
+
 LANGUAGES_TABLES = {
     "common": {
         "а": "a",
@@ -40,20 +45,56 @@ LANGUAGES_TABLES = {
     "russian": {"ё": "ë", "ъ": '"', "ы": "y", "э": "ė"},
     "ukrainian": {"г": "h", "ґ": "g", "є": "ie", "и": "y", "і": "i", "ї": "ï"},
     "uzbek": {"ё": "ë", "э": "ė", "ғ": "gh", "қ": "q", "ў": "ŭ", "ҳ": "ḣ", "ъ": '"'},
+    "kazakh": {
+        "ә": "ă",
+        "ғ": "gh",
+        "ә": "ă",
+        "ё": "ё",
+        "қ": "q",
+        "ң": "ng",
+        "ө": "ȯ",
+        "ұ": "ū",
+        "ү": "u̇",
+        "һ": "ḣ",
+        "ы": "y",
+        "і": "ī",
+        "э": "ė",
+    },
+    "serbian": {
+        "ђ": "đ",
+        "ж": "ž",
+        "ј": "j",
+        "љ": "lj",
+        "њ": "nj",
+        "ћ": "ć",
+        "х": "h",
+        "ц": "c",
+        "ч": "č",
+        "џ": "dž",
+        "ш": "š",
+    },
+    "bulgarian": {"ъ": "ŭ"},
 }
 
 
 class Language:
 
     def __init__(self):
-        self.supported_languages = ("russian", "ukrainian", "uzbek")
+        self.supported_languages = (
+            "russian",
+            "ukrainian",
+            "uzbek",
+            "kazakh",
+            "serbian",
+            "bulgarian",
+        )
         self.RESOLUTION_ORDER = (
             "russian",
             "ukrainian",
             "uzbek",
-            # "kazakh",
-            # "serbian",
-            # "bulgarian",
+            "kazakh",
+            "serbian",
+            "bulgarian",
             # "belarusian",
             # "tajiki",
             # "kyrgyz",
@@ -73,6 +114,8 @@ class Language:
 
         # Iterate over the languages
         for lang in self.RESOLUTION_ORDER:
+            logging.debug(f"\current language: {lang}\n")
+
             # Get the language table
             language_table = LANGUAGES_TABLES[lang]
             total_specific_chars = len(LANGUAGES_TABLES[lang])
@@ -110,6 +153,7 @@ class Language:
 
                         # If proportion is higher than 75% declare the language detected
                         if found_chars_proportion >= 0.75:
+                            logging.debug(f"\high proportion detection: {lang}, {found_chars_proportion}\n")
                             detected_language = lang
                             break
 
@@ -125,7 +169,8 @@ class Language:
             potential_languages[lang] = found_chars_proportion
 
         # When we've gone through all the languages pick the one in the potential languages with the highest probability
-        if len(potential_languages) > 0:
+        if len(potential_languages) > 0 and detected_language is None:
+            logging.debug(f"\end_of_langs -> potential languages: {potential_languages}\n")
             detected_language = max(potential_languages, key=potential_languages.get)
 
         if detected_language is None:
@@ -134,7 +179,9 @@ class Language:
             return detected_language
 
     def create_language_table(self, language: str) -> dict:
-        return {**LANGUAGES_TABLES["common"], **LANGUAGES_TABLES[language]}
+        lang_table = {**LANGUAGES_TABLES["common"], **LANGUAGES_TABLES[language]}
+        logging.debug(f"\nfull language table: {lang_table}\n")
+        return lang_table
 
 
 class Transliterator:
