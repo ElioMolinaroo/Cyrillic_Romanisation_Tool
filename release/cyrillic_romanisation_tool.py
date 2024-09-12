@@ -14,6 +14,7 @@ Supported languages: Russian
                      Chechen/Ingush
                      Montenegrin
                      Ossetian
+                     Abkhaz
 """
 
 import logging
@@ -327,8 +328,6 @@ class Language:
 
 
 class Transliterator:
-    """this is a test"""
-
     def __init__(self, transliteration_table: dict):
         self.transliteration_table = transliteration_table
 
