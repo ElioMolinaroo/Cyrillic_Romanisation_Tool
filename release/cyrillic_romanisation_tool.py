@@ -11,6 +11,9 @@ Supported languages: Russian
                      Kyrgyz
                      Turkmen
                      Macedonian
+                     Chechen/Ingush
+                     Montenegrin
+                     Ossetian
 """
 
 import logging
@@ -29,6 +32,7 @@ CY_LT_EQUIVALENTS = {
     "і": "i",
     "ј": "j",
     "ѕ": "s",
+    "ӕ": "æ",
 }
 
 LANGUAGES_TABLES = {
@@ -153,7 +157,40 @@ LANGUAGES_TABLES = {
         "џ": "dž",
         "ш": "š",
     },
-    "chechen": {"ӏ": "ḣ", "ё": "ë", "ъ": '"', "ы": "y", "э": "ė"},
+    "chechen/ingush": {"ӏ": "ḣ", "ё": "ë", "ъ": '"', "ы": "y", "э": "ė"},
+    "montenegrin": {
+        "ђ": "đ",
+        "ж": "ž",
+        "з́": "ź",
+        "ј": "j",
+        "љ": "lj",
+        "њ": "nj",
+        "с́": "ś",
+        "ћ": "ć",
+        "х": "h",
+        "ц": "c",
+        "ч": "č",
+        "џ": "dž",
+        "ш": "š",
+    },
+    "ossetian": {"ӕ": "æ", "ъ": '"', "ё": "ë", "ы": "y", "э": "ė"},
+    "abkhaz": {
+        "ӷ": "gh",
+        "ә": "ẇ",
+        "џ": "j",
+        "ҽ": "ćh",
+        "ҿ": "ćh́",
+        "ӡ": "dz",
+        "қ": "k̇h",
+        "ҟ": "q",
+        "ҩ": "w",
+        "ԥ": "ph",
+        "ҭ": "th",
+        "ҳ": "ḣ",
+        "ҵ": "tṡ",
+        "ҷ": "ċh",
+        "ы": "y",
+    },
 }
 
 
@@ -172,7 +209,9 @@ class Language:
             "kyrgyz",
             "turkmen",
             "macedonian",
-            "chechen",
+            "chechen/ingush",
+            "ossetian",
+            "abkhaz",
         )
         self.RESOLUTION_ORDER = (
             "russian",
@@ -186,11 +225,10 @@ class Language:
             "kyrgyz",
             "turkmen",
             "macedonian",
-            "chechen",
-            # "montenegrin",
-            # "ossetian",
-            # "ingush",
-            # "abkhazian",
+            "chechen/ingush",
+            "montenegrin",
+            "ossetian",
+            "abkhaz",
         )
 
     def detect_language(self, text: str) -> str:
