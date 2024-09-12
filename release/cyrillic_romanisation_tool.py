@@ -74,6 +74,30 @@ LANGUAGES_TABLES = {
         "ш": "š",
     },
     "bulgarian": {"ъ": "ŭ"},
+    "belarusian": {
+        "г": "h",
+        "ґ": "g",
+        "ё": "io",
+        "ї": "ï",
+        "і": "i",
+        "ў": "ŭ",
+        "ъ": '"',
+        "ы": "y",
+        "э": "ė",
+    },
+    "tajik": {
+        "ғ": "gh",
+        "ё": "ë",
+        "ӣ": "ī",
+        "қ": "q",
+        "ӯ": "ū",
+        "ҳ": "ḣ",
+        "ҷ": "j",
+        "ъ": '"',
+        "э": "ė",
+        "ы": "y",
+    },
+    "kyrgyz": {"ё": "ë", "ң": "ng", "ө": "ȯ", "ү": "u̇", "ъ": '"', "ы": "y", "э": "ė"},
 }
 
 
@@ -87,6 +111,9 @@ class Language:
             "kazakh",
             "serbian",
             "bulgarian",
+            "belarusian",
+            "tajik",
+            "kyrgyz",
         )
         self.RESOLUTION_ORDER = (
             "russian",
@@ -95,9 +122,9 @@ class Language:
             "kazakh",
             "serbian",
             "bulgarian",
-            # "belarusian",
-            # "tajiki",
-            # "kyrgyz",
+            "belarusian",
+            "tajik",
+            "kyrgyz",
             # "turkmen",
             # "bosnian",
             # "macedonian",
@@ -141,7 +168,9 @@ class Language:
                     char not in LANGUAGES_TABLES["common"]
                     and char not in language_table
                 ):
-                    logging.debug(f"Wrong language: {lang}, because of character '{char}'")
+                    logging.debug(
+                        f"Wrong language: {lang}, because of character '{char}'"
+                    )
                     wrong_language = True
                     break
 
@@ -155,7 +184,9 @@ class Language:
 
                     # If proportion is higher than 75% and it has gone through more than 200 letters (or the full text) declare the language detected
                     if found_chars_proportion >= 0.75 and iterated_letters >= 200:
-                        logging.debug(f"\high proportion detection: {lang}, {found_chars_proportion}\n")
+                        logging.debug(
+                            f"\high proportion detection: {lang}, {found_chars_proportion}\n"
+                        )
                         detected_language = lang
                         break
 
@@ -172,7 +203,9 @@ class Language:
 
         # When we've gone through all the languages pick the one in the potential languages with the highest probability
         if len(potential_languages) > 0 and detected_language is None:
-            logging.debug(f"\end_of_langs -> potential languages: {potential_languages}\n")
+            logging.debug(
+                f"\end_of_langs -> potential languages: {potential_languages}\n"
+            )
             detected_language = max(potential_languages, key=potential_languages.get)
 
         if detected_language is None:
