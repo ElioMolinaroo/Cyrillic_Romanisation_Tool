@@ -138,6 +138,8 @@ class Language:
 
 
 class Transliterator:
+    """this is a test"""
+
     def __init__(self, transliteration_table: dict):
         self.transliteration_table = transliteration_table
 
@@ -168,19 +170,54 @@ class Transliterator:
 
 if __name__ == "__main__":
 
-    # Get the user input text
-    user_text = input("Your text in Cyrillic: \n")
+    close = False
 
-    # Find the source language
-    language_obj = Language()
-    source_lang = language_obj.detect_language(text=user_text)
+    while close is False:
+        # User wants transliterate or detect language
+        chosen_proc = None
+        while chosen_proc not in ("", "1", "2", "3", "4"):
+            chosen_proc = input(
+                "\033[1m- Transliterate text (1)\033[0m\n- Detect language (2)\n- List of supported languages (3)\n- exit (4): \n"
+            )
 
-    # Create the language table
-    lang_table = language_obj.create_language_table(source_lang)
+        # Transliterate text
+        if chosen_proc == "1" or chosen_proc == "":
+            # Get the user input text
+            user_text = input("Your text in Cyrillic: \n")
 
-    # Transliterate the text
-    transliterator_obj = Transliterator(transliteration_table=lang_table)
-    result = transliterator_obj.transliterate_text(text=user_text)
+            # Find the source language
+            language_obj = Language()
+            source_lang = language_obj.detect_language(text=user_text)
 
-    # Print the results
-    print(f"\n{result}")
+            # Create the language table
+            lang_table = language_obj.create_language_table(source_lang)
+
+            # Transliterate the text
+            transliterator_obj = Transliterator(transliteration_table=lang_table)
+            result = transliterator_obj.transliterate_text(text=user_text)
+
+            # Print the results
+            print(f"\n\n{result}\n")
+
+        # Detect language
+        elif chosen_proc == "2":
+            # Get the user input text
+            user_text = input("Your text in Cyrillic: \n")
+
+            # Find the source language
+            language_obj = Language()
+            source_lang = language_obj.detect_language(text=user_text)
+
+            print(f"\n This text is written in {source_lang.capitalize()}. \n")
+
+        # List of supported languages
+        elif chosen_proc == "3":
+            lang_obj = Language()
+            print(f"\nSupported languages:\n")
+            for lang in lang_obj.supported_languages:
+                print("- " + lang.capitalize())
+            print("\n")
+
+        # Exit the program
+        elif chosen_proc == "4":
+            close = True
