@@ -10,6 +10,17 @@ import logging
 logging.basicConfig(level=logging.DEBUG)
 
 
+CY_LT_EQUIVALENTS = {
+    "а": "a",
+    "е": "e",
+    "о": "o",
+    "р": "p",
+    "с": "s",
+    "у": "y",
+    "х": "x",
+    "і": "i",
+}
+
 LANGUAGES_TABLES = {
     "common": {
         "а": "a",
@@ -148,16 +159,27 @@ class Language:
             total_specific_chars = len(LANGUAGES_TABLES[lang])
             wrong_language = False
             iterated_letters = 0
+            iterated_chars = 0
             matching_chars_list = []
 
             # Iterate over each character in the text
             for char in text:
+                iterated_chars += 1
                 # Check if the character is a letter
                 if char.isalpha() is False:
                     continue
 
                 char = char.lower()
                 iterated_letters += 1
+
+                # Check if the character is somehow in the latin alphabet (some letters look the same but are encoded differently)
+                # If yes change it to its cyrillic equivalent
+                if char.lower() in CY_LT_EQUIVALENTS.values():
+                    char = list(
+                        filter(
+                            lambda x: CY_LT_EQUIVALENTS[x] == char, CY_LT_EQUIVALENTS
+                        )
+                    )[0]
 
                 # If the character is in the common table, go to the next character
                 if char in LANGUAGES_TABLES["common"]:
@@ -169,7 +191,7 @@ class Language:
                     and char not in language_table
                 ):
                     logging.debug(
-                        f"Wrong language: {lang}, because of character '{char}'"
+                        f"Wrong language: {lang}, because of character '{char}' in position {iterated_chars}"
                     )
                     wrong_language = True
                     break
